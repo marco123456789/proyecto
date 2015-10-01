@@ -1,28 +1,13 @@
 package arbolBinario;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.util.Date;
 
-/**
- * Es una estructura de datos recursiva no lineal
- * que permite guardar datos de forma ordenada
- * y con tiempo de acceso logar&iacute;tmico.
- * 
- * Esta clase implementa sus m&eacute;todos <code>insertar()</code>
- * y <code>eliminar()</code> utilizando el concepto de &aacute;rbol
- 
- * @param T el tipo de dato de los elementos 
- *      de &eacute;ste &aacute;rbol binario.
- * 
- * @see modelo.tda.Navegador
- */
-/**
- *
- * @author TANIA
- */
 
 public class ArbolBinario implements Serializable{
 
-
+//int edad =0;
     private NodoBinario  Raiz;
         private int n;
 
@@ -47,10 +32,7 @@ public class ArbolBinario implements Serializable{
         return n;
     }
 
-    public Navegador getNavegador() {
-        return new Navegador(Raiz);
-    }
-
+//
    public boolean EsHoja(NodoBinario T){
        if (T==null){
            return false;
@@ -65,13 +47,15 @@ public class ArbolBinario implements Serializable{
  
 
 
-   public void InsertarN(int  Dato){
-             if(Raiz==null){
+   public void InsertarN(String Nombre,int Dato,String FechaNac){
+       if(Raiz==null){
+           
            Raiz=new NodoBinario ();
            Raiz.setDato(Dato);
+           Raiz.setFechaNac(FechaNac);
+           Raiz.setNombre(Nombre);
            n++;
-       }
-       else{
+       }else{
            NodoBinario  p=Raiz;
            NodoBinario  ant=null;
            while(p!=null){
@@ -90,6 +74,8 @@ public class ArbolBinario implements Serializable{
            }
            NodoBinario Aux=new NodoBinario();
            Aux.setDato(Dato);
+           Aux.setFechaNac(FechaNac);
+           Aux.setNombre(Nombre);
            //comp=Dato.compareTo(ant.getDato());
            if(Dato >ant.getDato() )
                ant.setRD(Aux);
@@ -103,151 +89,29 @@ public class ArbolBinario implements Serializable{
    }
 
 
-   public void eliminar(int e) {
-       if(Raiz!=null){
-        Raiz = eliminarrec(Raiz, e);
-       }
-    }
-
-    public NodoBinario eliminarrec(NodoBinario r, int e) {
-        if (r != null) {
-            if (r.getDato() == e) {
-                if ((r.getRI() == null) && (r.getRD() == null))
-                    return null;
-                else {
-                    if (r.getRI() == null)
-                        //&&(r.get_RD()!=null))
-                        return r.getRD();
-                    else {
-                        if (r.getRD() == null)
-                            //&&(r.get_RI()!=null))
-                            return r.getRI();
-                        else {
-                            if (r.getRI() != null && r.getRD() != null) {
-                                int x = mayorizq(r.getRI());
-                                r.setDato(x);
-                                r.setRI(eliminarrec(r.getRI(), x));
-                                return r;
-                            }
-                        }
-                    }
-                }
-
-            } else {
-                if (r.getDato() > e)
-                    r.setRI(eliminarrec(r.getRI(), e));
-                else
-                    r.setRD(eliminarrec(r.getRD(), e));
-                  //  r.setRD(eliminarrec(r.getRD()),e));
-            }
-        }
-        return r;
-    }
-
-    public int mayorizq(NodoBinario r) {
-        while (r.getRD() != null)
-            r = r.getRD();
-        return r.getDato();
-    }
 
 
 
- public void InOrden(){
-           InOrden1(Raiz);
 
-       }
- public void InOrden1 (NodoBinario  P){
+ public void PreOrden(){
+           PreOrden1(Raiz);
+
+  }
+ 
+ public void PreOrden1 (NodoBinario  P){
      if(P == null){
          return ;
      }
      else
          if(EsHoja(P))
-          System.out.print(P.getDato()+ ",");
+          System.out.println(P.getDato()+"-"+ P.getNombre()+"-"+P.getFechaNac() + ",");
          else{
-           InOrden1(P.getRI());
-           System.out.print(P.getDato()+ ",");
-           InOrden1(P.getRD());
+           PreOrden1(P.getRD());
+           System.out.println(P.getDato()+"-"+ P.getNombre()+"-"+P.getFechaNac() + ",");
+           PreOrden1(P.getRI());
+           
          }
  }
-
-public int Altura(){
-    return Altura1(Raiz);
-}
-
-public int Altura1(NodoBinario P){
-    if(P == null){
-        return 0;
-    }
-    else
-        if(EsHoja(P))
-            return 1;
-        else{
-           int a=Altura1(P.getRI());
-           int b=Altura1(P.getRD());
-           if(a > b){
-               return a + 1;
-           }
-           else{
-               return b + 1;
-           }
-        }
-
-}
-
-// escribir la funciÃ³n exite un elemento x en el Ã¡rbol binario
-
-public boolean Existe(int Dato){
-    return Existe1(Dato,Raiz);
-
-}
-
-public boolean Existe1(int Dato, NodoBinario P){
-
-   if(P == null){
-       return false;
-   }
-   else
-       if(EsHoja(P))
-           return P.getDato()==Dato;
-       else{
-       if(P.getDato()== Dato)
-           return true;
-
-       else{
-
-
-         boolean a=Existe1(Dato,P.getRD());
-         boolean b=Existe1(Dato, P.getRI());
-         if(a==true || b==true)
-             return true;
-         else
-             return false;
-
-       }
-
-
-    }
-
-}
-
-//Escribir una funcion que devuelva la cantidad de hojas de un arbol
-public int cantHojas(){
-    return cantHojas1(Raiz);
-}
-
-public int cantHojas1(NodoBinario P){
-    if(P == null){
-        return 0;
-    }else
-        if(EsHoja(P))
-            return 1;
-        else{
-           int a=cantHojas1(P.getRD());
-           int b=cantHojas1(P.getRI());
-           return a + b;
-        }
-}
-
 
 public int busqueda( NodoBinario P , char c){
 
@@ -255,22 +119,24 @@ public int busqueda( NodoBinario P , char c){
 
 }
 
-// ArbolBinario a=new ArbolBinario();
-//        
-//        a.InsertarN(20);
-//        a.InsertarN(25);
-//        a.InsertarN(40);
-//        a.InsertarN(30);
-//        a.InsertarN(50);
-//        a.InsertarN(60);
-//        a.InsertarN(55);
-//        a.InsertarN(4);
+public static void main(String[] args) {
+   ArbolBinario a=new ArbolBinario();
+      
+     System.out.println();
+      a.InsertarN("12-08-30",35,"pedro");
+      a.InsertarN("12-08-30",20,"juan");
+      a.InsertarN("12-08-30",40,"maria");
+      a.InsertarN("12-08-30",18,"marco");
+      a.PreOrden();
+
 //        a.InsertarN(2);
-//        //m=a.getInOrden();
-//       a.InOrden();
-//       System.out.println();
-//     //  System.out.println(a.peso());
-//       System.out.println(a.Altura());
+        //m=a.getInOrden();
+        //a.InOrden();
+   //     System.out.println();
+     //  System.out.println(a.peso());
+       // System.out.println(a.Altura());
+    
+}
 
 
 }
