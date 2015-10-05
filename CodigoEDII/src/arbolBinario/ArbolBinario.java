@@ -47,13 +47,13 @@ public class ArbolBinario implements Serializable{
  
 
 
-   public void InsertarN(String Nombre,int Dato,String FechaNac){
+   public void InsertarN(Persona Pe){
        if(Raiz==null){
            
            Raiz=new NodoBinario ();
-           Raiz.setDato(Dato);
-           Raiz.setFechaNac(FechaNac);
-           Raiz.setNombre(Nombre);
+           Raiz.setDato(Pe);
+//           Raiz.setFechaNac(FechaNac);
+//           Raiz.setNombre(Nombre);
            n++;
        }else{
            NodoBinario  p=Raiz;
@@ -61,11 +61,11 @@ public class ArbolBinario implements Serializable{
            while(p!=null){
                ant=p;
              // comp=Dato.compareTo(p.getDato());
-               if( Dato > p.getDato())
+               if( Pe.getEdad() > p.getDato().getEdad())
                    p=p.getRD();
                else{
                     //comp=Dato.compareTo(p.getDato());
-                   if( Dato < p.getDato() )
+                   if( Pe.getEdad() < p.getDato().getEdad() )
                        p=p.getRI();
                    else
                        return;
@@ -73,11 +73,11 @@ public class ArbolBinario implements Serializable{
 
            }
            NodoBinario Aux=new NodoBinario();
-           Aux.setDato(Dato);
-           Aux.setFechaNac(FechaNac);
-           Aux.setNombre(Nombre);
+           Aux.setDato(Pe);
+//           Aux.setFechaNac(FechaNac);
+//           Aux.setNombre(Nombre);
            //comp=Dato.compareTo(ant.getDato());
-           if(Dato >ant.getDato() )
+           if(Pe.getEdad() >ant.getDato().getEdad() )
                ant.setRD(Aux);
            else
                ant.setRI(Aux);
@@ -120,7 +120,7 @@ public void PreOrdenI1(NodoBinario  A){
     aux=(NodoBinario)pila.sacar();
     while (aux!=null)
     {
-      System.out.println(aux.getDato());
+      System.out.println(aux.getDato().getEdad());
       pila.poner(aux.getRD());
       aux=aux.getRI();
     }
@@ -151,24 +151,31 @@ void PreOrdenI2(NodoBinario nodo)
 }
 public static void main(String[] args) {
    ArbolBinario a=new ArbolBinario();
-      
+     Persona p=new Persona();
+     
+     
      System.out.println();
-      a.InsertarN("12-08-30",10,"pedro");
-      a.InsertarN("12-08-30",5,"juan");
-      a.InsertarN("12-08-30",15,"maria");
-//      a.InsertarN("12-08-30",3,"marco");
-      a.InsertarN("12-08-30",7,"marco1");
-      a.InsertarN("12-08-30",14,"maisel");
-      a.InsertarN("12-08-30",17,"monica");
-      a.InsertarN("12-08-30",1,"juan1");
-      a.InsertarN("12-08-30",4,"maria 2");
-      a.InsertarN("12-08-30",9,"marco 3");
-      a.InsertarN("12-08-30",16,"maisel 4");
-      a.InsertarN("12-08-30",20,"monica 5");
-      a.PreOrden();
+//      a.InsertarN("12-08-30",10,"pedro");
+//      a.InsertarN("12-08-30",5,"juan");
+//      a.InsertarN("12-08-30",15,"maria");
+//      a.InsertarN("12-08-30",7,"marco1");
+//      a.InsertarN("12-08-30",14,"maisel");
+//      a.InsertarN("12-08-30",17,"monica");
+//      a.InsertarN("12-08-30",1,"juan1");
+//      a.InsertarN("12-08-30",4,"maria 2");
+//      a.InsertarN("12-08-30",9,"marco 3");
+//      a.InsertarN("12-08-30",16,"maisel 4");
+//      a.InsertarN("12-08-30",20,"monica 5");
+     p.Insertar("rodrigo", 23, "3/1/89");
+     a.InsertarN(p);
+     p=new Persona();
+     p.Insertar("rodrigo", 35, "3/1/89");
+     
+     a.InsertarN(p);
+//      a.PreOrden();
 //      a.getRaiz();
       a.PreOrdenI();
-      a.V2PreOrdenI();
+//      a.V2PreOrdenI();
 //      a.inorden();
 //        a.InsertarN(2);
         //m=a.getInOrden();
