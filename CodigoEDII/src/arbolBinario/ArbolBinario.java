@@ -3,7 +3,7 @@ package arbolBinario;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
-
+import Pila.Pila;
 
 public class ArbolBinario implements Serializable{
 
@@ -87,12 +87,6 @@ public class ArbolBinario implements Serializable{
 
 
    }
-
-
-
-
-
-
  public void PreOrden(){
            PreOrden1(Raiz);
 
@@ -104,39 +98,87 @@ public class ArbolBinario implements Serializable{
      }
      else
          if(EsHoja(P))
-          System.out.println(P.getDato()+"-"+ P.getNombre()+"-"+P.getFechaNac() + ",");
+          System.out.println(P.getDato()); //+"-"+ P.getNombre()+"-"+P.getFechaNac() + ",");
          else{
-           PreOrden1(P.getRD());
-           System.out.println(P.getDato()+"-"+ P.getNombre()+"-"+P.getFechaNac() + ",");
+           System.out.println(P.getDato());//+"-"+ P.getNombre()+"-"+P.getFechaNac() + ",");
            PreOrden1(P.getRI());
-           
+           PreOrden1(P.getRD()); 
          }
  }
-
-public int busqueda( NodoBinario P , char c){
-
-    return 0;
-
+ 
+////// version primera
+public void PreOrdenI(){
+           PreOrdenI1(Raiz);
 }
 
+public void PreOrdenI1(NodoBinario  A){ 
+  NodoBinario aux;
+  Pila pila=new Pila(); // pila de nodos
+  pila.poner(A);
+  while(!pila.estaVacia()) // mientras la pila no este vacia
+  {
+    aux=(NodoBinario)pila.sacar();
+    while (aux!=null)
+    {
+      System.out.println(aux.getDato());
+      pila.poner(aux.getRD());
+      aux=aux.getRI();
+    }
+  }
+} 
+////version segunda
+public void V2PreOrdenI(){
+           PreOrdenI2(Raiz);
+}
+void PreOrdenI2(NodoBinario nodo)
+{
+  NodoBinario aux;
+  Pila pila=new Pila(); // pila de nodos
+  pila.poner(nodo);
+  while(!pila.estaVacia()) // mientras la pila no este vacia
+  {
+    aux=(NodoBinario)pila.sacar();
+    if (aux!=null)
+    {
+      System.out.print(aux.getDato());
+      // primero se apila el nodo derecho y luego el izquierdo
+      // para mantener el orden correcto del recorrido
+      // al desapilar los nodos
+      pila.poner(aux.getRD());
+      pila.poner(aux.getRI());
+    }
+  }
+}
 public static void main(String[] args) {
    ArbolBinario a=new ArbolBinario();
       
      System.out.println();
-      a.InsertarN("12-08-30",35,"pedro");
-      a.InsertarN("12-08-30",20,"juan");
-      a.InsertarN("12-08-30",40,"maria");
-      a.InsertarN("12-08-30",18,"marco");
+      a.InsertarN("12-08-30",10,"pedro");
+      a.InsertarN("12-08-30",5,"juan");
+      a.InsertarN("12-08-30",15,"maria");
+//      a.InsertarN("12-08-30",3,"marco");
+      a.InsertarN("12-08-30",7,"marco1");
+      a.InsertarN("12-08-30",14,"maisel");
+      a.InsertarN("12-08-30",17,"monica");
+      a.InsertarN("12-08-30",1,"juan1");
+      a.InsertarN("12-08-30",4,"maria 2");
+      a.InsertarN("12-08-30",9,"marco 3");
+      a.InsertarN("12-08-30",16,"maisel 4");
+      a.InsertarN("12-08-30",20,"monica 5");
       a.PreOrden();
-
+//      a.getRaiz();
+      a.PreOrdenI();
+      a.V2PreOrdenI();
+//      a.inorden();
 //        a.InsertarN(2);
         //m=a.getInOrden();
         //a.InOrden();
    //     System.out.println();
      //  System.out.println(a.peso());
        // System.out.println(a.Altura());
-    
-}
+      
 
 
 }
+}
+
